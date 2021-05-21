@@ -1,0 +1,33 @@
+version: '3'
+
+# serviços que vão rodar no container
+services: 
+    wordpress: #container chamado wordpress
+        build: .
+        restart: always
+        ports: 
+            - "8080:80"
+        environment:
+            #variáveis de ambiente no wordpress
+            WORDPRESS_DB_HOST: db
+            WORDPRESS_DB_USER: bianca
+            WORDPRESS_DB_PASSWORD: BIAreis@
+            WORDPRESS_DB_NAME: wpdb
+                    
+        volumes: #é a pasta que contém o container 
+            - ./src:/var/www/html/wp-content/plugins/meu-plugin    
+                 
+    db: #a imagem veio do docker-hub -> container chamado db
+        image: mysql:5.7
+        restart: always
+        environment: 
+            MYSQL_DATABASE: wpdb
+            MYSQL_USER: bianca
+            MYSQL_PASSWORD: BIAreis@
+            MYSQL_RANDOM_ROOT_PASSWORD: '1'
+        volumes: 
+            - db:/var/lib/mysql
+
+
+volumes: #cria um volume chamado db 
+    db:
